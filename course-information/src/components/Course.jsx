@@ -1,6 +1,16 @@
-const Course = () => {
+import Header from "./course-components/Header"
+import Content from "./course-components/Content"
+import Sum from "./course-components/Sum"
+
+const Course = ({
+    course
+}) => {
   return (
-    <div>Course</div>
+    <div>
+        <Header  course = {course} />
+        <Content course = {course} />
+        <Sum course = {course}/>
+    </div>
   )
 }
 
