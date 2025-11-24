@@ -1,23 +1,19 @@
 const Persons = ({
-    filter, persons
+    filter, persons, onClick
 }) => {
     const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
-  return (
-    <div>
-        {filter ? (
-        filteredPersons.map(person => (
-          <p key={person.name}>
-            {person.name} {person.number}
-          </p>
-        ))
-      ):
-        persons.map(person => (
-        <p key={person.name}>
-          {person.name} {person.number}
-        </p>
-      ))
-      }
-    </div>
+  return(
+    filter === '' ?
+    persons.map(p => 
+      <p key={p.id}>{p.name} {p.number}
+        <button className="delete" onClick={() => onClick(p.id)}>delete</button>
+      </p>
+    ):
+    filteredPersons.map(fp=> 
+      <p key={fp.id}>{fp.name} {fp.number}
+        <button className="delete" onClick={() => onClick(fp.id)}>delete</button>
+      </p>
+    )
   )
 }
 

@@ -39,24 +39,48 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault()
+    const maxId = persons.reduce((a, b) => a.id > b.id ? a.id : b.id , "0")
+    
     const personObj = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: (parseInt(maxId) + 1).toString()
     }
+    const nameExists = persons.some(person => person.name === newName)
+    const numberExists = persons.some(person => newNumber === person.number)
+
+    const personFound = persons.find(person => person.name === newName)
+    const updatedPerson = {...personFound, number: newNumber}
+
+    const updatedPeople = persons.map(person => person.id ===updatedPerson.id ? updatedPerson : person )
     
-    persons.some(person => person.name === newName) 
-    ?
-    window.alert(`${newName} is already added to phonebook`) 
-    : 
-    persons.some(person => person.number === newNumber)
-    ?
-    window.alert(`a person already exists with the number ${newNumber}`)
-    :
-    setPersons([...persons, personObj])
+    newName === '' || newNumber === '' ?
+    window.alert('A name and a number are required to add a person to the phonebook') : 
+    numberExists ?
+    window.alert(`A person already exists with the number ${newNumber}`) :
+    nameExists && window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`) ?
+    personService
+      .updatePerson(updatedPerson.id, updatedPerson)
+      .then(setPersons(updatedPeople)) :
+    // console.log(updatedPerson):
+    
+      personService
+        .addPerson(personObj)
+        .then(newPerson => setPersons([...persons, newPerson]))
     setNewName('')
     setNewNumber('')
   }
 
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id)
+    
+    
+    if (window.confirm(`Delete ${person.name}`) ) {
+    personService
+      .removePerson(person.id)
+      .then(setPersons(persons.filter(n => n.id !== id))) 
+    }
+  }
   
   
   
@@ -74,7 +98,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons filter={filter} persons={persons} />
+      <Persons filter={filter} persons={persons} onClick={deletePerson}/>
       
     </div>
   )

@@ -8,7 +8,28 @@ const getAll = () => {
             .then(response => response.data)
 }
 
+const addPerson = (newPerson) => {
+    return axios
+            .post(baseUrl, newPerson)
+            .then(response => response.data)
+}
+
+const removePerson = (id) => {
+    return axios
+            .delete(`${baseUrl}/${id}`)
+            .then(response => response.data)
+}
+
+const updatePerson = (id, newPerson) => {
+    return axios
+            .put(`${baseUrl}/${id}`, newPerson)
+            .then( response => response.data)
+}
+
 
 export default {
-    getAll
+    getAll,
+    addPerson,
+    removePerson,
+    updatePerson
 }
