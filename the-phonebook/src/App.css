@@ -22,3 +22,23 @@ button:active{
 .delete {
     background-color: rgb(253, 126, 152);
 }
+
+.notification {
+    display: inline-block;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.notification.error {
+    color: red;
+    background: rgba(211, 211, 211, 0.325);
+}
+
+.notification.success {
+    color: rgb(13, 149, 36);
+    background: rgba(211, 211, 211, 0.325);
+}
